@@ -51,33 +51,47 @@
   services.xserver.displayManager.startx.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  # Bluetooth
+  services.blueman.enable = true;
+
   # Configure keymap in X11
   services.xserver.layout = "us";
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
+
+  # Enable docker
+  virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.devon = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "audio" "docker"]; # Enable ‘sudo’ for the user.
   };
 
   # Define packages for devon
   users.users.devon.packages = with pkgs; [
     arandr
     awesome
-    docker
+    bat
+    direnv
+    fd
     gcc10
     git
     gnumake
     neofetch
     neovim-nightly
+    pavucontrol
     picom
     qutebrowser
+    ripgrep
+    spotify
     tmux
     tmuxinator
+    xclip
+    xsel
     zathura
     (st.overrideAttrs (oldAttrs: rec {
       src = fetchFromGitHub {
